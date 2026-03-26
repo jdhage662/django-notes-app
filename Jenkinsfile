@@ -26,14 +26,9 @@ pipeline{
         }
         stage("push to docker hub"){
              steps{
-                    echo "This is pushing the image to docker hub"
-                    withCredentials([usernamePassword('credentialsId':"dockerHubCre",
-                    'passwordVariable':"dockerHubCrePass",
-                    'usernameVariable':"dockerHubCreUser")]){
-                    sh "docker login -u ${env.dockerHubCreUser} -p ${env.dockerHubCrePass}"
-                    sh "docker image tag notes-app:latest ${dockerHubCreUser}/notes-app:latest"
-                    sh "docker push ${dockerHubCreUser}/notes-app:latest"
-                    }
+                   script{
+                       dockerpush("notes-app","latest")
+                   }
                 }
 
         }
